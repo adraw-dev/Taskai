@@ -1,10 +1,9 @@
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { AppSidebar } from "@/components/app-sidebar";
-import { TaskDetailSheet } from "@/components/task-detail-sheet";
-import { FloatingActionBar } from "@/components/floating-action-bar";
-import { GenerateAiPromptDialog } from "@/components/generate-ai-prompt-dialog";
+import { AppSidebar } from "@/components/layout/app-sidebar";
 
+// Shell común a todos los módulos. Lo específico de cada módulo (paneles,
+// diálogos, barras flotantes) va en el layout de su route group.
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
@@ -16,9 +15,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </header>
         <div className="flex flex-1 flex-col">{children}</div>
       </SidebarInset>
-      <TaskDetailSheet />
-      <FloatingActionBar />
-      <GenerateAiPromptDialog />
     </SidebarProvider>
   );
 }
