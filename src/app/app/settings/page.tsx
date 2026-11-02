@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -12,23 +11,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useUser } from "@/lib/queries/user";
-import { createClient } from "@/lib/supabase/client";
+import { PageContainer, PageHeader } from "@/components/shared/page";
+import { useSignOut, useUser } from "@/lib/auth";
 
 export default function SettingsPage() {
   const { data: user } = useUser();
-  const router = useRouter();
-  const supabase = createClient();
-
-  async function handleSignOut() {
-    await supabase.auth.signOut();
-    router.push("/login");
-    router.refresh();
-  }
+  const signOut = useSignOut();
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 p-4 sm:p-6">
-      <h1 className="text-2xl font-semibold">Configuración</h1>
+    <PageContainer>
+      <PageHeader title="Configuración" />
 
       <Card>
         <CardHeader className="flex flex-row items-center gap-3">
@@ -41,12 +33,12 @@ export default function SettingsPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <Button variant="outline" className="gap-2" onClick={handleSignOut}>
+          <Button variant="outline" className="gap-2" onClick={signOut}>
             <LogOut className="size-4" />
             Cerrar sesión
           </Button>
         </CardContent>
       </Card>
-    </div>
+    </PageContainer>
   );
 }

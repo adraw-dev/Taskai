@@ -45,11 +45,23 @@ Abre [http://localhost:3000](http://localhost:3000).
 ## Estructura relevante
 
 - `src/app/(login|signup)` — autenticación
-- `src/app/app` — layout con sidebar + vistas (Hoy, Importante, Planeado, listas, papelera, ajustes)
-- `src/components` — UI de la app (task board, sheet de detalle, diálogo de IA, etc.)
-- `src/lib/supabase` — clientes de Supabase (browser, server, middleware)
-- `src/lib/queries` — hooks de TanStack Query sobre Supabase
+- `src/app/app/layout.tsx` — shell común (sidebar + header), sin lógica de ningún módulo
+- `src/app/app/(tasks)` — route group de Tareas (Hoy, Importante, Planeado, listas, papelera); su layout monta el sheet de detalle, la barra de selección y el diálogo de IA
+- `src/modules/<modulo>` — código de cada módulo: `components/`, `queries/` (hooks de TanStack Query), `types.ts`, estado de cliente
+- `src/config/modules.ts` — registro de módulos que alimenta el sidebar
+- `src/components/ui` — primitivos de shadcn/ui (sin modificar)
+- `src/components/shared` — composiciones reutilizables entre módulos (contenedor de página, estado vacío, etc.)
+- `src/components/layout` — sidebar, providers y registro del service worker
+- `src/lib` — utilidades transversales: clientes de Supabase, `auth.ts`, `dates.ts` (fechas locales), `query.ts`
+- `src/lib/types/supabase.ts` — tipos del esquema; se regeneran con `npm run db:types` tras cada migración
 - `supabase/migrations` — esquema SQL + RLS + bucket de Storage
+
+### Agregar un módulo
+
+1. Migración en `supabase/migrations` y `npm run db:types`.
+2. Código en `src/modules/<modulo>` (los módulos no se importan entre sí; lo compartido va en `src/components/shared` o `src/lib`).
+3. Rutas en `src/app/app/<modulo>`.
+4. Entrada en `src/config/modules.ts`.
 - `supabase/functions/generate-ai-prompt` — Edge Function que arma el prompt y llama a Gemini/Claude
 
 ## PWA

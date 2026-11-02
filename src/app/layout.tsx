@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Roboto_Flex } from "next/font/google";
-import { Providers } from "@/components/providers";
-import { ServiceWorkerRegister } from "@/components/service-worker-register";
+import { Providers } from "@/components/layout/providers";
+import { ServiceWorkerRegister } from "@/components/layout/service-worker-register";
 import "./globals.css";
 
 const robotoFlex = Roboto_Flex({
